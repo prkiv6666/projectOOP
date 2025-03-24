@@ -48,14 +48,12 @@ class User {
     private String password;
     private boolean isAdmin;
 
-    // Конструктор
     public User(String username, String password, boolean isAdmin) {
         this.username = username;
         this.password = password;
         this.isAdmin = isAdmin;
     }
 
-    // Проверка на паролата
     public boolean checkPassword(String pass) {
         return this.password.equals(pass);
     }
