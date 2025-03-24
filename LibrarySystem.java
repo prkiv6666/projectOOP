@@ -43,3 +43,28 @@ class Book {
         System.out.println("ISBN: " + isbn);
     }
 }
+class User {
+    private String username;
+    private String password;
+    private boolean isAdmin;
+
+    // Конструктор
+    public User(String username, String password, boolean isAdmin) {
+        this.username = username;
+        this.password = password;
+        this.isAdmin = isAdmin;
+    }
+
+    // Проверка на паролата
+    public boolean checkPassword(String pass) {
+        return this.password.equals(pass);
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+}
