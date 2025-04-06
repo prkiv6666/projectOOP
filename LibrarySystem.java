@@ -66,3 +66,27 @@ class User {
         return username;
     }
 }
+public class LibrarySystem {
+    private static List<Book> books = new ArrayList<>();
+    private static List<User> users = new ArrayList<>();
+    private static User loggedInUser = null;
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        // Добавяне на admin акаунта
+        users.add(new User("admin", "i<2Java", true));
+
+        System.out.println("Добре дошли в библиотечната система!");
+        System.out.println("Въведете 'help' за списък с команди.");
+
+        while (true) {
+            System.out.print("> ");
+            String command = scanner.nextLine();
+
+            try {
+                executeCommand(command);
+            } catch (Exception e) {
+                System.out.println("Грешка: " + e.getMessage());
+            }
+        }
+    }
