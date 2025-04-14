@@ -73,7 +73,6 @@ public class LibrarySystem {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        // Добавяне на admin акаунта
         users.add(new User("admin", "i<2Java", true));
 
         System.out.println("Добре дошли в библиотечната система!");
@@ -88,5 +87,72 @@ public class LibrarySystem {
             } catch (Exception e) {
                 System.out.println("Грешка: " + e.getMessage());
             }
+        }
+    }
+private static void executeCommand(String command) throws Exception {
+        String[] parts = command.split(" ", 2);
+        String action = parts[0];
+
+        switch (action.toLowerCase()) {
+            case "help":
+                printHelp();
+                break;
+            case "exit":
+                System.out.println("Програмата приключва. Довиждане!");
+                System.exit(0);
+                break;
+            case "login":
+                if (loggedInUser != null) {
+                    System.out.println("You are already logged in.");
+                } else {
+                    login();
+                }
+                break;
+            case "logout":
+                if (loggedInUser == null) {
+                    System.out.println("Не сте вписан.");
+                } else {
+                    System.out.println("Logout успешен.");
+                    loggedInUser = null;
+                }
+                break;
+            case "books":
+                if (loggedInUser == null) {
+                    throw new Exception("Нужен е вход в системата.");
+                }
+                handleBooksCommand(parts[1]);
+                break;
+            case "users":
+                if (!isAdmin()) throw new Exception("Само администратори могат да използват тази команда.");
+                handleUserCommand(parts[1]);
+                break;
+            default:
+                System.out.println("Непозната команда. Опитайте пак.");
+        }
+    }
+
+    private static void login() {
+        System.out.print("Потребителско име: ");
+        String username = scanner.nextLine();
+        System.out.print("Парола: ");
+        String password = readPassword();
+
+        for (User user : users) {
+            if (user.getUsername().equals(username) && user.checkPassword(password)) {
+                loggedInUser = user;
+                System.out.println("Добре дошъл, " + username + "!");
+                return;
+            }
+        }
+        System.out.println("Грешно потребителско име или парола.");
+    }
+
+    private static String readPassword() {
+        Console console = System.console();
+        if (console != null) {
+            char[] passwordArray = console.readPassword();
+            return new String(passwordArray);
+        } else {
+            return scanner.nextLine();
         }
     }
